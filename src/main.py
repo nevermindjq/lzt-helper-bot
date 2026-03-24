@@ -1,13 +1,12 @@
 import sys
 import asyncio
 import logging
-
 from dotenv import load_dotenv
 
-from bot.main import create, start
+from bot import create, start
 
 
-async def main():
+def __configure_environment():
     logging.basicConfig(
         level=logging.INFO,
         format="[%(asctime)s] [%(levelname)s] %(name)s: %(message)s",
@@ -22,7 +21,8 @@ async def main():
     logging.info('Configure environment')
     load_dotenv()
 
-    #
+async def main():
+    __configure_environment()
     bot, dp = create()
 
     try:

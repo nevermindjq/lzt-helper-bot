@@ -1,3 +1,13 @@
+# Telegram
 aiogram==3.26.0
+
+# Database
+sqlalchemy==2.0.48
+sqlalchemy-utils==0.42.1
+alembic==1.18.4
+psycopg2==2.9.11
+
+# Other
 asyncio==4.0.0
 python-dotenv==1.2.2
+cryptography==46.0.5
