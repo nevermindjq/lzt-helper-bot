@@ -14,12 +14,16 @@ def __configure_routers(dp: Dispatcher):
 
     from .handlers import (
         router_errors,
-        router_hello
+        router_profile,
+        router_start,
+        router_threads
     )
 
     dp.include_routers(
         router_errors,
-        router_hello
+        router_profile,
+        router_start,
+        router_threads
     )
 
 def __configure_services(dp: Dispatcher):

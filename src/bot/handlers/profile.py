@@ -1,26 +1,14 @@
 from LOLZTEAM import Forum
 from aiogram import Router
-from aiogram.enums import ParseMode
 from aiogram.filters import Command, CommandObject
 from aiogram.types import Message
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.database import User
 
-
 router = Router()
 
-@router.message(Command('start'))
-async def hello(message: Message, lolz_forum: Forum | None):
-    if lolz_forum:
-        response = await lolz_forum.users.get('me')
-        data = response.json()['user']
-
-        await message.reply(f'Hello, {data['username']}!')
-    else:
-        await message.reply(f'Hello, {message.from_user.username}!', parse_mode=ParseMode.HTML)
-
-@router.message(Command('set_api_key'))
+@router.message(Command('set_key'))
 async def set_api(message: Message, command: CommandObject, db: AsyncSession):
     # Verify message
     args = command.args.split(' ') if command.args else []
