@@ -2,10 +2,11 @@
 aiogram==3.26.0
 
 # Database
-sqlalchemy==2.0.48
+sqlalchemy[asyncio]==2.0.48
 sqlalchemy-utils==0.42.1
 alembic==1.18.4
 psycopg2==2.9.11
+asyncpg==0.31.0
 
 # Other
 asyncio==4.0.0
