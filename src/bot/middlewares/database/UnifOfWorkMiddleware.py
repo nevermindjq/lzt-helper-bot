@@ -1,13 +1,15 @@
 import logging
+from typing import cast
+
 from aiogram import BaseMiddleware
+from aiogram.types import Message, CallbackQuery
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class UnitOfWorkMiddleware(BaseMiddleware):
-    async def __call__(self, handler, event, data):
+    async def __call__(self, handler, event: Message | CallbackQuery, data):
         # Create
-        session: AsyncSession
-        session = data['db'] = data['db_maker']()
+        session = data['db'] = cast(AsyncSession, data['db_maker']())
 
         # Inject
         try:

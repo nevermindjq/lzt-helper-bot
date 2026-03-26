@@ -6,13 +6,19 @@ from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage, SimpleEventIsolation
 from sqlalchemy.ext.asyncio import AsyncEngine, async_sessionmaker, AsyncSession
 
+from src.bot.middlewares import AuthenticationMiddleware, LolzTeamApiMiddleware
+
 
 def __configure_routers(dp: Dispatcher):
     logging.info('Configure routers')
 
-    from .commands import router_hello
+    from .handlers import (
+        router_errors,
+        router_hello
+    )
 
     dp.include_routers(
+        router_errors,
         router_hello
     )
 
@@ -22,10 +28,20 @@ def __configure_services(dp: Dispatcher):
     from .middlewares import UnitOfWorkMiddleware
     dp['db_engine'] = create_engine()
     dp['db_maker'] = create_maker(dp['db_engine'])
-    dp.update.middleware(UnitOfWorkMiddleware())
 
-    #
-    pass
+    middleware_uow = UnitOfWorkMiddleware()
+    dp.message.middleware(middleware_uow)
+    dp.callback_query.middleware(middleware_uow)
+
+    # Auth
+    middleware_authentication = AuthenticationMiddleware()
+    dp.message.middleware(middleware_authentication)
+    dp.callback_query.middleware(middleware_authentication)
+
+    # LolzTeam
+    middleware_lolzteam_api = LolzTeamApiMiddleware()
+    dp.message.middleware(middleware_lolzteam_api)
+    dp.callback_query.middleware(middleware_lolzteam_api)
 
 def create() -> Tuple[Bot, Dispatcher]:
     logging.info('Configuring application')
