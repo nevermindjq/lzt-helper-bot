@@ -8,6 +8,7 @@ from sqlalchemy.ext.asyncio import (
     AsyncEngine
 )
 
+
 def create_engine() -> AsyncEngine:
     DB_HOST = os.getenv('DB_HOST')
     DB_PORT = os.getenv('DB_PORT', '5432')
